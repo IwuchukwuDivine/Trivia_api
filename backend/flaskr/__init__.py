@@ -180,7 +180,7 @@ def create_app(test_config=None):
     def search_question():
         body = request.get_json()
 
-        search = body.get("search")
+        search = body.get("searchTerm")
 
         try:
             selection = Question.query.order_by(
@@ -250,7 +250,7 @@ def create_app(test_config=None):
         body = request.get_json()
 
         quiz_category = body.get("quiz_category")
-        previous_question = body.get("previous_question")
+        previous_questions = body.get("previous_questions")
 
         try:
             # if the chosen category is ALL
@@ -273,7 +273,7 @@ def create_app(test_config=None):
                 # previous question id
                 random_id = random.choice(
                     [id for id in available_ids 
-                    if id not in previous_question])
+                    if id not in previous_questions])
 
                 question = Question.query.get(random_id)
 

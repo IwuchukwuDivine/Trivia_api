@@ -23,7 +23,7 @@ class TriviaTestCase(unittest.TestCase):
         #enter data for creating a new question to test 
         self.new_question = {"question": "Who is the governor of Anambra state", "answer": "Soludo", "category": "4", "difficulty": "1"}
         
-        self.new_quiz = {"quiz_category": {'type': 'Entertainment', 'id': '3'}, "previous_question": [15]}
+        self.new_quiz = {"quiz_category": {'type': 'Entertainment', 'id': '3'}, "previous_questions": [15]}
 
         # binds the app to the current context
         with self.app.app_context():
@@ -97,7 +97,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(res.data)
 
     def test_search_question_with_results(self):
-        res = self.client().post('/questions/search', json={"search": "Anambra"})
+        res = self.client().post('/questions/search', json={"searchTerm": "Anambra"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -106,7 +106,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data["questions"]), 1)
 
     def test_search_question_without_results(self):
-        res = self.client().post('/questions/search', json={"search": "nkuom"})
+        res = self.client().post('/questions/search', json={"searchTerm": "nkuom"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
