@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flaskr import create_app
 from models import setup_db, Question, Category
-
+from settings import DB_USER, DB_PASSWORD, DB_HOST
 
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -15,8 +15,8 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format(
-    "student", "student", "localhost:5432", self.database_name
+        self.database_path = "postgresql://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST,
+      self.database_name
 )
         setup_db(self.app, self.database_path)
 
@@ -67,14 +67,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"], "Resource Not Found")
 
     def test_delete_question(self):
-        res = self.client().delete('/questions/23')
+        res = self.client().delete('/questions/16')
         data = json.loads(res.data)
 
-        question = Question.query.filter(Question.id == 23).one_or_none()
+        question = Question.query.filter(Question.id == 16).one_or_none()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
-        self.assertEqual(data["deleted"], 23)
+        self.assertEqual(data["deleted"], 16)
         self.assertTrue(data["total_questions"])
         self.assertTrue(len(data["questions"]))
         self.assertEqual(question, None)
